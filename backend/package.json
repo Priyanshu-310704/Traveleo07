@@ -1,0 +1,27 @@
+{
+  "name": "traveleo",
+  "version": "1.0.0",
+  "description": "A travel budgeting tool where users can plan and track their travel expenses. The platform allows for categorization of expenses and offer budgeting advice.",
+  "main": "backend/src/server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "author": "Priyanshu",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "node": "^24.12.0",
+    "node-cron": "^4.2.1",
+    "nodemailer": "^7.0.11",
+    "nodemon": "^3.1.11",
+    "pg": "^8.16.3"
+  },
+  "keywords": []
+}

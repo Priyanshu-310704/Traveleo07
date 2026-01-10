@@ -1,0 +1,61 @@
+import express from "express";
+import cors from "cors";
+
+const app = express();
+
+//middleware
+app.use(express.json());
+
+app.use(
+  cors({
+    origin: "http://localhost:5173", // frontend URL
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
+
+import userRoute from "./routes/user.route.js"; //users
+
+app.use("/api", userRoute);
+
+import tripRoute from "./routes/trip.route.js"; //trips
+
+app.use("/api", tripRoute);
+
+import categoryRoute from "./routes/category.route.js"; //category
+app.use("/api", categoryRoute);
+
+import expenseRoute from "./routes/expense.route.js"; //expenses
+
+app.use("/api", expenseRoute);
+
+import budgetRoute from "./routes/budget.route.js"; //budget
+
+app.use("/api", budgetRoute);
+
+import insightRoute from "./routes/insight.route.js"; //insights
+
+app.use("/api", insightRoute);
+
+import healthRoute from "./routes/health.route.js";
+
+import profileRoutes from "./routes/profile.routes.js";
+
+app.use("/api/profile", profileRoutes);
+
+import historyRoutes from "./routes/history.routes.js";
+
+app.use("/api", historyRoutes);
+
+import analyticsRoutes from "./routes/analytics.routes.js";
+
+app.use("/api/analytics", analyticsRoutes);
+
+app.use("/api", healthRoute);
+// test route
+app.get("/", (req, res) => {
+  res.send("Traveleo backend is running 🚀");
+});
+
+export default app;
