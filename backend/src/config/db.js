@@ -12,7 +12,7 @@ const {Pool} = pg
 //     port: process.env.DB_PORT,
 // })
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.DB_URL,
   ssl: {
     rejectUnauthorized: false,
   },
