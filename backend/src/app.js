@@ -6,11 +6,21 @@ const app = express();
 //middleware
 app.use(express.json());
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://traveleo07.onrender.com"
+];
+
 app.use(
   cors({
-    origin: "https://traveleo07.onrender.com", // frontend URL
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS not allowed"));
+      }
+    },
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
