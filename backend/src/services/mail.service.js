@@ -1,4 +1,6 @@
-import transporter from "../config/mail.js";
+import resend from "../config/mail.js";
+
+const FROM_EMAIL = "TraveLeo <onboarding@resend.dev>";
 
 /* ===================== BASE EMAIL LAYOUT ===================== */
 const baseTemplate = ({ title, content, footer }) => `
@@ -107,7 +109,7 @@ export const sendWelcomeMail = async (email, name) => {
       line-height:1.7;
       color:#cbd5f5;
     ">
-      You’re officially part of <strong>TraveLeo</strong> — your smart travel
+      You're officially part of <strong>TraveLeo</strong> — your smart travel
       budgeting companion built for clarity, control, and peace of mind.
     </p>
 
@@ -130,15 +132,15 @@ export const sendWelcomeMail = async (email, name) => {
     </p>
   `;
 
-  await transporter.sendMail({
-    from: `"TraveLeo ✈️" <${process.env.MAIL_USER}>`,
+  await resend.emails.send({
+    from: FROM_EMAIL,
     to: email,
     subject: "Welcome to TraveLeo ✈️",
     html: baseTemplate({
       title: "Welcome to TraveLeo",
       content,
       footer:
-        "You’re receiving this email because you created a TraveLeo account.",
+        "You're receiving this email because you created a TraveLeo account.",
     }),
   });
 };
@@ -187,13 +189,13 @@ export const sendOtpMail = async (email, name, otp) => {
     </div>
 
     <p style="font-size:14px;color:#94a3b8;line-height:1.6;">
-      If you didn’t request this login, you can safely ignore this email.
+      If you didn't request this login, you can safely ignore this email.
       Your account remains secure.
     </p>
   `;
 
-  await transporter.sendMail({
-    from: `"TraveLeo Security ✈️" <${process.env.MAIL_USER}>`,
+  await resend.emails.send({
+    from: FROM_EMAIL,
     to: email,
     subject: "Your TraveLeo Login OTP 🔐",
     html: baseTemplate({
@@ -242,8 +244,8 @@ export const sendTripReminderMail = async (email, name, trip) => {
     </p>
   `;
 
-  await transporter.sendMail({
-    from: `"TraveLeo ✈️" <${process.env.MAIL_USER}>`,
+  await resend.emails.send({
+    from: FROM_EMAIL,
     to: email,
     subject: "Upcoming Trip Reminder ✈️",
     html: baseTemplate({
@@ -298,15 +300,15 @@ export const sendAccountDeletedMail = async (email, name) => {
     </p>
   `;
 
-  await transporter.sendMail({
-    from: `"TraveLeo Security ✈️" <${process.env.MAIL_USER}>`,
+  await resend.emails.send({
+    from: FROM_EMAIL,
     to: email,
     subject: "Your TraveLeo Account Has Been Deleted",
     html: baseTemplate({
       title: "Account Deleted",
       content,
       footer:
-        "This message confirms a permanent account deletion. If this wasn’t you, contact support immediately.",
+        "This message confirms a permanent account deletion. If this wasn't you, contact support immediately.",
     }),
   });
 };
