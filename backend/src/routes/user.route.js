@@ -120,8 +120,10 @@ router.post("/login", async (req, res) => {
       [user.id, otp, expiresAt]
     );
 
-    // 📩 Send OTP mail
-    await sendOtpMail(user.email, user.name, otp);
+    // 📩 Send OTP mail (non-blocking to avoid timeout on Render)
+    sendOtpMail(user.email, user.name, otp).catch((err) =>
+      console.error("OTP mail error:", err.message)
+    );
 
     res.status(200).json({
       success: true,
