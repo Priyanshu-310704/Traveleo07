@@ -39,7 +39,14 @@ const Login = () => {
     setLoading(true);
     try {
       const res = await loginUser({ email, password });
-      if (res.data.otpRequired) {
+      if (res.data.token) {
+        // Direct login — JWT issued without OTP
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+        showToast("success", "Login successful");
+        setTimeout(() => navigate("/dashboard"), 600);
+      } else if (res.data.otpRequired) {
+        // OTP flow (kept for future use)
         setUserId(res.data.userId);
         setStep("OTP");
         setOtpTimer(300);
