@@ -104,32 +104,18 @@ router.post("/login", async (req, res) => {
       });
     }
 
-    // 🔥 DELETE OLD OTPs
-    await pool.query(`DELETE FROM user_otps WHERE user_id = $1`, [user.id]);
-
-    // 🔐 Generate OTP
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-
-    const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 min
-
-    await pool.query(
-      `
-      INSERT INTO user_otps (user_id, otp, expires_at)
-      VALUES ($1, $2, $3)
-      `,
-      [user.id, otp, expiresAt]
-    );
-
-    // 📩 Send OTP mail (non-blocking to avoid timeout on Render)
-    sendOtpMail(user.email, user.name, otp).catch((err) =>
-      console.error("OTP mail error:", err.message)
+    // 🔐 Issue JWT directly (OTP skipped for now)
+    const token = jwt.sign(
+      { id: user.id, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.JWT_EXPIRES_IN }
     );
 
     res.status(200).json({
       success: true,
-      otpRequired: true, // 🔥 ADD THIS
-      userId: user.id,
-      message: "OTP sent to your email",
+      message: "Login successful",
+      token,
+      user: { id: user.id, name: user.name, email: user.email },
     });
   } catch (error) {
     res.status(500).json({
